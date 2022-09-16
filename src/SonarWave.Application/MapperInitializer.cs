@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using SonarWave.Application.Entities;
-using SonarWave.Application.Models.User;
 
 namespace SonarWave.Application
 {
@@ -11,7 +9,6 @@ namespace SonarWave.Application
     {
         public MapperInitializer()
         {
-            CreateMap<User, CreateUserRequest>().ReverseMap();
         }
     }
 }

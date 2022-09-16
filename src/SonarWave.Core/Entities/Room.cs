@@ -1,4 +1,4 @@
-﻿namespace SonarWave.Application.Entities
+﻿namespace SonarWave.Core.Entities
 {
     /// <summary>
     /// Represents a room.

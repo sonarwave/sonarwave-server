@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using System.Net;
 
-namespace SonarWave.Application.Models.User
+namespace SonarWave.Core.Models.User
 {
     /// <summary>
     /// A validator for <see cref="CreateUserRequest"/> to see whether correct data has been given.

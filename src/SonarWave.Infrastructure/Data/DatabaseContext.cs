@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SonarWave.Application.Entities;
+using SonarWave.Core.Entities;
 using System.Reflection;
 
-namespace SonarWave.Application
+namespace SonarWave.Infrastructure.Data
 {
     public class DatabaseContext : DbContext
     {

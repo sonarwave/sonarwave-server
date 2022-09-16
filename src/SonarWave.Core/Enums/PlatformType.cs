@@ -1,4 +1,4 @@
-﻿namespace SonarWave.Application.Enums
+﻿namespace SonarWave.Core.Enums
 {
     /// <summary>
     /// Represents different types of sonarwave platforms.
