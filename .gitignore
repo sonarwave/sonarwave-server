@@ -3,7 +3,7 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-# This files will be ignored.
+# This files/folders will be ignored.
 /src/SonarWave.Client
 
 # User-specific files
