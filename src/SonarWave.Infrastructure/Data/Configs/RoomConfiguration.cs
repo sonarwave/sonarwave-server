@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SonarWave.Application.Entities;
+using SonarWave.Core.Entities;
 
-namespace SonarWave.Application.EntityConfiguration
+namespace SonarWave.Infrastructure.Data.Configs
 {
     /// <summary>
     /// Configuration for <see cref="Room"/> entity.

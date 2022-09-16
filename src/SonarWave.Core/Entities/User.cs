@@ -1,11 +1,11 @@
-﻿using SonarWave.Application.Enums;
+﻿using SonarWave.Core.Enums;
 
-namespace SonarWave.Application.Models.User
+namespace SonarWave.Core.Entities
 {
     /// <summary>
-    /// A model for adding user.
+    /// Represents a user.
     /// </summary>
-    public class CreateUserRequest
+    public class User
     {
         /// <summary>
         /// Represents the connection id of the connected user.
@@ -21,5 +21,15 @@ namespace SonarWave.Application.Models.User
         /// The sonarwave platform used to connect to the server.
         /// </summary>
         public PlatformType PlatformType { get; set; } = default!;
+
+        /// <summary>
+        /// Represents the id of the group that the user is in.
+        /// </summary>
+        public string? RoomId { get; set; }
+
+        // <summary>
+        /// Represents the group that the user is in.
+        /// </summary>
+        public virtual Room? Room { get; set; }
     }
 }
