@@ -15,7 +15,8 @@ namespace SonarWave.Infrastructure.Data.Configs
 
             builder.HasOne(opt => opt.Room)
                 .WithMany(opt => opt.Users)
-                .HasForeignKey(opt => opt.RoomId);
+                .HasForeignKey(opt => opt.RoomId)
+                .IsRequired(false);
         }
     }
 }

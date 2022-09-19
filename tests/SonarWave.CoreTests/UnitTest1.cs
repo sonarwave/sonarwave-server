@@ -5,7 +5,6 @@ namespace SonarWave.CoreTests
         [Fact]
         public void Test1()
         {
-
         }
     }
 }

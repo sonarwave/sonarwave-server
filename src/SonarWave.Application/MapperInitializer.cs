@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using SonarWave.Application.Models;
+using SonarWave.Core.Entities;
 
 namespace SonarWave.Application
 {
@@ -9,6 +11,9 @@ namespace SonarWave.Application
     {
         public MapperInitializer()
         {
+            CreateMap<User, UserItem>().ReverseMap();
+
+            CreateMap<Room, RoomItem>().ReverseMap();
         }
     }
 }
