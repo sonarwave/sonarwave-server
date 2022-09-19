@@ -1,11 +1,11 @@
 ﻿using SonarWave.Core.Enums;
 
-namespace SonarWave.Core.Entities
+namespace SonarWave.Application.Models
 {
     /// <summary>
-    /// Represents a user.
+    /// Represents a user dto.
     /// </summary>
-    public class User
+    public class UserItem
     {
         /// <summary>
         /// Represents the connection id of the connected user.
@@ -18,11 +18,6 @@ namespace SonarWave.Core.Entities
         public int DisplayName { get; set; }
 
         /// <summary>
-        /// Represents the remote ip address of the connected network.
-        /// </summary>
-        public string RemoteIpAddress { get; set; } = default!;
-
-        /// <summary>
         /// The sonarwave platform used to connect to the server.
         /// </summary>
         public PlatformType PlatformType { get; set; } = default!;
@@ -31,10 +26,5 @@ namespace SonarWave.Core.Entities
         /// Represents the id of the group that the user is in.
         /// </summary>
         public string? RoomId { get; set; }
-
-        // <summary>
-        /// Represents the group that the user is in.
-        /// </summary>
-        public virtual Room Room { get; set; } = default!;
     }
 }

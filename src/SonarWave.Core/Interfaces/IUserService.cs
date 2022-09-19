@@ -51,6 +51,6 @@ namespace SonarWave.Core.Interfaces
         /// <item><see cref="ErrorType.NotFound"/></item>
         /// </list>
         /// </remarks>
-        public Task<Result<bool>> DeleteUserAsync(string connectionId);
+        public Task<Result<bool>> RemoveUserAsync(string connectionId);
     }
 }

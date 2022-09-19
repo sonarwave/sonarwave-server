@@ -14,12 +14,13 @@ namespace SonarWave.Infrastructure.DependencyInjection
     {
         public void Register(IServiceCollection services, IConfiguration _)
         {
-            services.AddDbContext<DatabaseContext>(opt =>
+            services.AddDbContextFactory<DatabaseContext>(opt =>
             {
                 opt.UseInMemoryDatabase(nameof(DatabaseContext));
             });
 
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IRoomService, RoomService>();
         }
     }
 }
