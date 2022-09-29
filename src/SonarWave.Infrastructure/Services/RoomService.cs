@@ -11,17 +11,14 @@ namespace SonarWave.Infrastructure.Services
     /// <summary>
     /// A service for room related operation.
     /// </summary>
-    public class RoomService : IRoomService
+    public class RoomService : AbstractService, IRoomService
     {
-        private readonly IDbContextFactory<DatabaseContext> _dbContextFactory;
-
         public event Func<UserJoinedRoomEventArgs, Task> OnUserJoinedRoomAsync = default!;
 
         public event Func<UserLeftRoomEventArgs, Task> OnUserLeftRoomAsync = default!;
 
-        public RoomService(IDbContextFactory<DatabaseContext> dbContextFactory)
+        public RoomService(DatabaseContext context) : base(context)
         {
-            _dbContextFactory = dbContextFactory;
         }
 
         #region JoinRoomAsync
@@ -31,13 +28,14 @@ namespace SonarWave.Infrastructure.Services
             if (string.IsNullOrEmpty(connectionId))
                 return Result<Room>.Failure(ErrorType.BadRequest, "ConnectionId invalid.");
 
-            using DatabaseContext context = _dbContextFactory.CreateDbContext();
-
-            User? user = await context.Users.FindAsync(connectionId);
+            User? user = await _context.Users.FindAsync(connectionId);
             if (user == null)
                 return Result<Room>.Failure(ErrorType.NotFound, "User not found.");
 
-            Room? room = await context.Rooms
+            if (!string.IsNullOrEmpty(user.RoomId))
+                return Result<Room>.Failure(ErrorType.NotFound, "User is already in a room.");
+
+            Room? room = await _context.Rooms
                 .Include(opt => opt.Users)
                 .FirstOrDefaultAsync(opt => opt.Users.Any(opt => opt.RemoteIpAddress == user.RemoteIpAddress));
 
@@ -45,7 +43,7 @@ namespace SonarWave.Infrastructure.Services
             {
                 room = new Room();
                 user.DisplayName = 0;
-                context.Rooms.Add(room);
+                _context.Rooms.Add(room);
             }
             else
             {
@@ -53,7 +51,7 @@ namespace SonarWave.Infrastructure.Services
             }
 
             user.Room = room;
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             await OnUserJoinedAsync(new UserJoinedRoomEventArgs()
             {
                 RoomId = room.Id,
@@ -72,23 +70,24 @@ namespace SonarWave.Infrastructure.Services
             if (string.IsNullOrEmpty(connectionId) || !Guid.TryParse(roomId, out _))
                 return Result<Room>.Failure(ErrorType.BadRequest, "Invalid ids.");
 
-            using DatabaseContext context = _dbContextFactory.CreateDbContext();
-
-            Room? room = await context.Rooms
+            Room? room = await _context.Rooms
                 .Include(opt => opt.Users)
                 .FirstOrDefaultAsync(opt => opt.Id == roomId);
 
             if (room == null)
                 return Result<Room>.Failure(ErrorType.NotFound, "Room not found.");
 
-            User? user = await context.Users.FindAsync(connectionId);
+            User? user = await _context.Users.FindAsync(connectionId);
 
             if (user == null)
                 return Result<Room>.Failure(ErrorType.NotFound, "User not found.");
 
+            if (!string.IsNullOrEmpty(user.RoomId))
+                return Result<Room>.Failure(ErrorType.NotFound, "User is already in a room.");
+
             user.DisplayName = room.Users.MaxBy(opt => opt.DisplayName)!.DisplayName + 1;
             user.Room = room;
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             await OnUserJoinedAsync(new UserJoinedRoomEventArgs()
             {
                 RoomId = room.Id,
@@ -107,9 +106,7 @@ namespace SonarWave.Infrastructure.Services
             if (string.IsNullOrEmpty(connectionId))
                 return Result<bool>.Failure(ErrorType.BadRequest, "ConnectionId invalid.");
 
-            using DatabaseContext context = _dbContextFactory.CreateDbContext();
-
-            User? user = await context.Users
+            User? user = await _context.Users
                 .Include(opt => opt.Room)
                 .ThenInclude(opt => opt.Users)
                 .FirstOrDefaultAsync(opt => opt.ConnectionId == connectionId);
@@ -124,9 +121,9 @@ namespace SonarWave.Infrastructure.Services
             user.RoomId = null;
 
             if (user.Room.Users.Count <= 1)
-                context.Rooms.Remove(user.Room);
+                _context.Rooms.Remove(user.Room);
 
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             await OnUserLeftAsync(new UserLeftRoomEventArgs()
             {
                 ConnectionId = connectionId,

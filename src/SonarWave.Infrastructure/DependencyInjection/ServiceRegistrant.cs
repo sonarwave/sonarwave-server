@@ -14,7 +14,7 @@ namespace SonarWave.Infrastructure.DependencyInjection
     {
         public void Register(IServiceCollection services, IConfiguration _)
         {
-            services.AddDbContextFactory<DatabaseContext>(opt =>
+            services.AddDbContext<DatabaseContext>(opt =>
             {
                 opt.UseInMemoryDatabase(nameof(DatabaseContext));
             });
