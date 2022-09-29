@@ -8,6 +8,7 @@ using SonarWave.Core.Extensions;
 using SonarWave.Core.Interfaces;
 using SonarWave.Core.Models.User;
 using SonarWave.Core.Objects;
+using System.Net;
 
 namespace SonarWave.Application.Hubs
 {
@@ -19,9 +20,9 @@ namespace SonarWave.Application.Hubs
 
         public ConnectionHub(IUserService userService, IRoomService roomService, IMapper mapper)
         {
-            _userService = userService;
-            _roomService = roomService;
-            _mapper = mapper;
+            _userService = userService ?? throw new ArgumentNullException("userService");
+            _roomService = roomService ?? throw new ArgumentNullException("roomService");
+            _mapper = mapper ?? throw new ArgumentNullException("mapper"); ;
 
             _roomService.OnUserJoinedRoomAsync += OnUserJoinedRoomAsync;
             _roomService.OnUserLeftRoomAsync += OnUserLeftRoomAsync;
@@ -35,10 +36,14 @@ namespace SonarWave.Application.Hubs
             if (httpContext == null)
                 return;
 
+            bool validIp = IPAddress.TryParse(httpContext.Request.Headers["remote-ip-address"].ToString(), out IPAddress? address);
+            if (!validIp)
+                address = httpContext.Connection.RemoteIpAddress;
+
             var request = new CreateUserRequest()
             {
                 ConnectionId = Context.ConnectionId,
-                RemoteIpAddress = httpContext.Request.Headers["remote-ip-address"].ToString(),
+                RemoteIpAddress = address != null ? address.ToString() : string.Empty,
                 PlatformType = httpContext.Request.Headers["platform-type"].ToString().ToEnum<PlatformType>()
             };
 
@@ -56,7 +61,7 @@ namespace SonarWave.Application.Hubs
         {
             await _roomService.LeaveRoomAsync(Context.ConnectionId);
             await _userService.RemoveUserAsync(Context.ConnectionId);
-            await OnDisconnectedAsync(exception);
+            await base.OnDisconnectedAsync(exception);
         }
 
         #endregion OnDisconnectedAsync

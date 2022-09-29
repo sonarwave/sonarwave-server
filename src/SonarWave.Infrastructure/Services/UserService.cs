@@ -12,21 +12,17 @@ namespace SonarWave.Infrastructure.Services
     /// <summary>
     /// A service for user related operation.
     /// </summary>
-    public class UserService : IUserService
+    public class UserService : AbstractService, IUserService
     {
-        private readonly IDbContextFactory<DatabaseContext> _dbContextFactory;
-
-        public UserService(IDbContextFactory<DatabaseContext> dbContextFactory)
+        public UserService(DatabaseContext context) : base(context)
         {
-            _dbContextFactory = dbContextFactory;
         }
 
         #region GetUserAsync
 
         public async Task<User?> GetUserAsync(string connectionId)
         {
-            using DatabaseContext context = _dbContextFactory.CreateDbContext();
-            return await context.Users.FindAsync(connectionId);
+            return await _context.Users.FindAsync(connectionId);
         }
 
         #endregion GetUserAsync
@@ -48,9 +44,8 @@ namespace SonarWave.Infrastructure.Services
                 PlatformType = request.PlatformType,
             };
 
-            using DatabaseContext context = _dbContextFactory.CreateDbContext();
-            context.Users.Add(user);
-            await context.SaveChangesAsync();
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
 
             return Result<User>.Success(user);
         }
@@ -64,14 +59,13 @@ namespace SonarWave.Infrastructure.Services
             if (string.IsNullOrEmpty(connectionId))
                 return Result<bool>.Failure(ErrorType.BadRequest, "ConnectionId is invalid.");
 
-            using DatabaseContext context = _dbContextFactory.CreateDbContext();
-            var user = await context.Users.FindAsync(connectionId);
+            var user = await _context.Users.FindAsync(connectionId);
 
             if (user == null)
                 return Result<bool>.Failure(ErrorType.NotFound, "User not found.");
 
-            context.Users.Remove(user);
-            await context.SaveChangesAsync();
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
 
             return Result<bool>.Success(true);
         }

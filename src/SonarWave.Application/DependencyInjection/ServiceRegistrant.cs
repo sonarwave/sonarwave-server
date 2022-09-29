@@ -1,4 +1,6 @@
 ﻿using SonarWave.Core.Interfaces;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace SonarWave.Application.DependencyInjection
 {
@@ -16,7 +18,12 @@ namespace SonarWave.Application.DependencyInjection
                 options.EnableDetailedErrors = true;
                 options.ClientTimeoutInterval = TimeSpan.FromMinutes(10);
                 options.MaximumReceiveMessageSize = 1000000000;
-            });
+            })
+                .AddJsonProtocol(options =>
+                {
+                    options.PayloadSerializerOptions.Converters
+                       .Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+                });
         }
     }
 }
