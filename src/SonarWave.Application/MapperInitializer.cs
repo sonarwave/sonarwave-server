@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SonarWave.Application.Models;
 using SonarWave.Core.Entities;
+using File = SonarWave.Core.Entities.File;
 
 namespace SonarWave.Application
 {
@@ -14,6 +15,8 @@ namespace SonarWave.Application
             CreateMap<User, UserItem>().ReverseMap();
 
             CreateMap<Room, RoomItem>().ReverseMap();
+
+            CreateMap<File, FileItem>().ReverseMap();
         }
     }
 }

@@ -36,5 +36,15 @@ namespace SonarWave.Core.Entities
         /// Represents the group that the user is in.
         /// </summary>
         public virtual Room Room { get; set; } = default!;
+
+        /// <summary>
+        /// Represents a collection of sent files.
+        /// </summary>
+        public virtual ICollection<File> FilesSent { get; set; } = new List<File>();
+
+        /// <summary>
+        /// Represents a collection of received files.
+        /// </summary>
+        public virtual ICollection<File> FilesReceived { get; set; } = new List<File>();
     }
 }

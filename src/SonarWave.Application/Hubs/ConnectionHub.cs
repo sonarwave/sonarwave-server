@@ -6,9 +6,11 @@ using SonarWave.Core.Enums;
 using SonarWave.Core.EventArgs;
 using SonarWave.Core.Extensions;
 using SonarWave.Core.Interfaces;
+using SonarWave.Core.Models.File;
 using SonarWave.Core.Models.User;
 using SonarWave.Core.Objects;
 using System.Net;
+using File = SonarWave.Core.Entities.File;
 
 namespace SonarWave.Application.Hubs
 {
@@ -16,13 +18,15 @@ namespace SonarWave.Application.Hubs
     {
         private readonly IUserService _userService;
         private readonly IRoomService _roomService;
+        private readonly IFileService _fileService;
         private readonly IMapper _mapper;
 
-        public ConnectionHub(IUserService userService, IRoomService roomService, IMapper mapper)
+        public ConnectionHub(IUserService userService, IRoomService roomService, IFileService fileService, IMapper mapper)
         {
-            _userService = userService ?? throw new ArgumentNullException("userService");
-            _roomService = roomService ?? throw new ArgumentNullException("roomService");
-            _mapper = mapper ?? throw new ArgumentNullException("mapper"); ;
+            _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+            _roomService = roomService ?? throw new ArgumentNullException(nameof(userService));
+            _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(userService));
 
             _roomService.OnUserJoinedRoomAsync += OnUserJoinedRoomAsync;
             _roomService.OnUserLeftRoomAsync += OnUserLeftRoomAsync;
@@ -130,5 +134,73 @@ namespace SonarWave.Application.Hubs
         }
 
         #endregion OnUserLeftRoomAsync
+
+        #region FileTransferRequestAsync
+
+        public async Task<Response<File>> FileTransferRequestAsync(CreateFileRequest request)
+        {
+            var result = await _fileService.AddFileAsync(Context.ConnectionId, request);
+
+            if (result.Succeeded)
+            {
+                await Clients.Client(result.Value.RecipientId).SendAsync("OnFileTransferRequest", _mapper.Map<FileItem>(result.Value));
+                return Response<File>.Created(result.Value);
+            }
+
+            return result.Fault.ErrorType switch
+            {
+                ErrorType.NotFound => Response<File>.NotFound(result.Fault.ErrorMessage),
+                _ => Response<File>.BadRequest(result.Fault.ErrorMessage),
+            };
+        }
+
+        #endregion FileTransferRequestAsync
+
+        #region FileTransferRespondAsync
+
+        public async Task<Response<File>> FileTransferRespondAsync(UpdateFileRequest request)
+        {
+            var result = await _fileService.UpdateFileAsync(Context.ConnectionId, request);
+
+            if (result.Succeeded)
+            {
+                await Clients.Client(result.Value.SenderId).SendAsync("OnFileTransferRespond", _mapper.Map<FileItem>(result.Value));
+                return Response<File>.Ok(result.Value);
+            }
+
+            return result.Fault.ErrorType switch
+            {
+                ErrorType.NotFound => Response<File>.NotFound(result.Fault.ErrorMessage),
+                _ => Response<File>.BadRequest(result.Fault.ErrorMessage),
+            };
+        }
+
+        #endregion FileTransferRespondAsync
+
+        #region TransferFileAsync
+
+        public async Task TransferFileAsync(string fileId, IAsyncEnumerable<byte[]> chunks)
+        {
+            var file = await _fileService.GetFileAsync(Context.ConnectionId, fileId);
+
+            if (file == null)
+                return;
+
+            if (file.Acceptance != TransferAcceptance.Accepted)
+                return;
+
+            await foreach (var chunk in chunks)
+            {
+                await Clients.Client(file.RecipientId).SendAsync("ReceiveFile", new FileChunk()
+                {
+                    FileId = file.Id,
+                    Chunk = chunk
+                });
+            }
+
+            await _fileService.RemoveFileAsync(Context.ConnectionId, fileId);
+        }
+
+        #endregion TransferFileAsync
     }
 }

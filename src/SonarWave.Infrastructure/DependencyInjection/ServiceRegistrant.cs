@@ -21,6 +21,7 @@ namespace SonarWave.Infrastructure.DependencyInjection
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRoomService, RoomService>();
+            services.AddTransient<IFileService, FileService>();
         }
     }
 }
