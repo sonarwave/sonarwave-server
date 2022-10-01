@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SonarWave.Core.Entities;
 using System.Reflection;
+using File = SonarWave.Core.Entities.File;
 
 namespace SonarWave.Infrastructure.Data
 {
@@ -12,6 +13,7 @@ namespace SonarWave.Infrastructure.Data
 
         public DbSet<User> Users => Set<User>();
         public DbSet<Room> Rooms => Set<Room>();
+        public DbSet<File> Files => Set<File>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

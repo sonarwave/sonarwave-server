@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SonarWave.Core.Entities;
+﻿using SonarWave.Core.Entities;
 using SonarWave.Core.Enums;
 using SonarWave.Core.Extensions;
 using SonarWave.Core.Interfaces;

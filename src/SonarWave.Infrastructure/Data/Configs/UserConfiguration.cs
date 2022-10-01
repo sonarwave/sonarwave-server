@@ -17,6 +17,16 @@ namespace SonarWave.Infrastructure.Data.Configs
                 .WithMany(opt => opt.Users)
                 .HasForeignKey(opt => opt.RoomId)
                 .IsRequired(false);
+
+            builder.HasMany(opt => opt.FilesSent)
+                .WithOne(opt => opt.Sender)
+                .HasForeignKey(opt => opt.SenderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(opt => opt.FilesReceived)
+                .WithOne(opt => opt.Recipient)
+                .HasForeignKey(opt => opt.RecipientId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

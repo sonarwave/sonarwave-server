@@ -126,8 +126,8 @@ namespace SonarWave.Infrastructure.Services
             await _context.SaveChangesAsync();
             await OnUserLeftAsync(new UserLeftRoomEventArgs()
             {
-                ConnectionId = connectionId,
-                RoomId = roomId
+                RoomId = roomId,
+                ConnectionId = connectionId
             });
 
             return Result<bool>.Success(true);
