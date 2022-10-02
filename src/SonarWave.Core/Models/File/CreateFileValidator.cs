@@ -12,11 +12,14 @@ namespace SonarWave.Core.Models.File
             RuleFor(opt => opt.Name)
                 .NotEmpty();
 
+            RuleFor(opt => opt.Path)
+                .NotEmpty();
+
             RuleFor(opt => opt.Extension)
                 .NotEmpty();
 
             RuleFor(opt => opt.Size)
-                .GreaterThan(0);
+                .GreaterThan(0.0);
 
             RuleFor(opt => opt.RecipientId)
                 .NotEmpty();

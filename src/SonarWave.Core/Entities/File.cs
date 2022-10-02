@@ -10,12 +10,17 @@ namespace SonarWave.Core.Entities
         /// <summary>
         /// Represents a unique identifier.
         /// </summary>
-        public string Id { get; set; } = default!;
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         /// <summary>
         /// Represents the name of the file.
         /// </summary>
         public string Name { get; set; } = default!;
+
+        /// <summary>
+        /// Represents the path of the file.
+        /// </summary>
+        public string Path { get; set; } = default!;
 
         /// <summary>
         /// Whether or not the recipient has agreed on receiving the file.
@@ -30,7 +35,7 @@ namespace SonarWave.Core.Entities
         /// <summary>
         /// Represents the size of the file in Megabytes.
         /// </summary>
-        public int Size { get; set; }
+        public double Size { get; set; }
 
         /// <summary>
         /// Represents the id of the user that sent this file.
