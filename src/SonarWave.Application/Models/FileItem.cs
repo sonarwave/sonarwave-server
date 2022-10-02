@@ -18,6 +18,11 @@ namespace SonarWave.Application.Models
         public string Name { get; set; } = default!;
 
         /// <summary>
+        /// Represents the path of the file.
+        /// </summary>
+        public string Path { get; set; } = default!;
+
+        /// <summary>
         /// Whether or not the recipient has agreed on receiving the file.
         /// </summary>
         public TransferAcceptance Acceptance { get; set; }
@@ -30,7 +35,7 @@ namespace SonarWave.Application.Models
         /// <summary>
         /// Represents the size of the file in Megabytes.
         /// </summary>
-        public int Size { get; set; }
+        public double Size { get; set; }
 
         /// <summary>
         /// Represents the id of the user that sent this file.

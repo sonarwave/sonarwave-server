@@ -24,9 +24,9 @@ namespace SonarWave.Application.Hubs
         public ConnectionHub(IUserService userService, IRoomService roomService, IFileService fileService, IMapper mapper)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
-            _roomService = roomService ?? throw new ArgumentNullException(nameof(userService));
+            _roomService = roomService ?? throw new ArgumentNullException(nameof(roomService));
             _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(userService));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
             _roomService.OnUserJoinedRoomAsync += OnUserJoinedRoomAsync;
             _roomService.OnUserLeftRoomAsync += OnUserLeftRoomAsync;
@@ -137,20 +137,20 @@ namespace SonarWave.Application.Hubs
 
         #region FileTransferRequestAsync
 
-        public async Task<Response<File>> FileTransferRequestAsync(CreateFileRequest request)
+        public async Task<Response<FileItem>> FileTransferRequestAsync(CreateFileRequest request)
         {
             var result = await _fileService.AddFileAsync(Context.ConnectionId, request);
 
             if (result.Succeeded)
             {
                 await Clients.Client(result.Value.RecipientId).SendAsync("OnFileTransferRequest", _mapper.Map<FileItem>(result.Value));
-                return Response<File>.Created(result.Value);
+                return Response<FileItem>.Created(_mapper.Map<FileItem>(result.Value));
             }
 
             return result.Fault.ErrorType switch
             {
-                ErrorType.NotFound => Response<File>.NotFound(result.Fault.ErrorMessage),
-                _ => Response<File>.BadRequest(result.Fault.ErrorMessage),
+                ErrorType.NotFound => Response<FileItem>.NotFound(result.Fault.ErrorMessage),
+                _ => Response<FileItem>.BadRequest(result.Fault.ErrorMessage),
             };
         }
 
@@ -158,20 +158,20 @@ namespace SonarWave.Application.Hubs
 
         #region FileTransferRespondAsync
 
-        public async Task<Response<File>> FileTransferRespondAsync(UpdateFileRequest request)
+        public async Task<Response<FileItem>> FileTransferRespondAsync(UpdateFileRequest request)
         {
             var result = await _fileService.UpdateFileAsync(Context.ConnectionId, request);
 
             if (result.Succeeded)
             {
                 await Clients.Client(result.Value.SenderId).SendAsync("OnFileTransferRespond", _mapper.Map<FileItem>(result.Value));
-                return Response<File>.Ok(result.Value);
+                return Response<FileItem>.Ok(_mapper.Map<FileItem>(result.Value));
             }
 
             return result.Fault.ErrorType switch
             {
-                ErrorType.NotFound => Response<File>.NotFound(result.Fault.ErrorMessage),
-                _ => Response<File>.BadRequest(result.Fault.ErrorMessage),
+                ErrorType.NotFound => Response<FileItem>.NotFound(result.Fault.ErrorMessage),
+                _ => Response<FileItem>.BadRequest(result.Fault.ErrorMessage),
             };
         }
 

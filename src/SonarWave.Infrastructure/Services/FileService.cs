@@ -56,6 +56,7 @@ namespace SonarWave.Infrastructure.Services
             var file = new File()
             {
                 Name = request.Name,
+                Path = request.Path,
                 Extension = request.Extension,
                 Size = request.Size,
                 SenderId = user.ConnectionId,

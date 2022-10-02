@@ -11,6 +11,11 @@
         public string Name { get; set; } = default!;
 
         /// <summary>
+        /// Represents the path of the file.
+        /// </summary>
+        public string Path { get; set; } = default!;
+
+        /// <summary>
         /// Represents the extensions of the file.
         /// </summary>
         public string Extension { get; set; } = default!;
@@ -18,7 +23,7 @@
         /// <summary>
         /// Represents the size of the file in Megabytes.
         /// </summary>
-        public int Size { get; set; }
+        public double Size { get; set; }
 
         /// <summary>
         /// Represents the id of the recipient.
