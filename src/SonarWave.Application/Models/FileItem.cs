@@ -43,8 +43,18 @@ namespace SonarWave.Application.Models
         public string SenderId { get; set; } = default!;
 
         /// <summary>
+        /// Represents the user that sent this file.
+        /// </summary>
+        public virtual UserItem Sender { get; set; } = default!;
+
+        /// <summary>
         /// Represents the id of the user that should receive this file.
         /// </summary>
         public string RecipientId { get; set; } = default!;
+
+        /// <summary>
+        /// Represents the user that should receive this file.
+        /// </summary>
+        public virtual UserItem Recipient { get; set; } = default!;
     }
 }

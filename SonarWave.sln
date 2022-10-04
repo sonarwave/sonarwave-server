@@ -11,15 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SonarWave.Application", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SonarWave.ApplicationTests", "tests\SonarWave.ApplicationTests\SonarWave.ApplicationTests.csproj", "{A12E6293-C554-4A38-A0BA-856CE6C57EBB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SonarWave.Client", "src\SonarWave.Client\SonarWave.Client.csproj", "{64F7FCB8-8E70-44AC-A55E-2D1129661249}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SonarWave.Core", "src\SonarWave.Core\SonarWave.Core.csproj", "{5CFDCECD-AB6D-4548-A73F-D9A79DD0CEF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonarWave.Core", "src\SonarWave.Core\SonarWave.Core.csproj", "{5CFDCECD-AB6D-4548-A73F-D9A79DD0CEF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SonarWave.Infrastructure", "src\SonarWave.Infrastructure\SonarWave.Infrastructure.csproj", "{E5FF81C4-E8B3-415A-958D-7E5D8121EC44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonarWave.Infrastructure", "src\SonarWave.Infrastructure\SonarWave.Infrastructure.csproj", "{E5FF81C4-E8B3-415A-958D-7E5D8121EC44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SonarWave.CoreTests", "tests\SonarWave.CoreTests\SonarWave.CoreTests.csproj", "{B8777807-2016-4C9F-82D3-22AD07A35DD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonarWave.CoreTests", "tests\SonarWave.CoreTests\SonarWave.CoreTests.csproj", "{B8777807-2016-4C9F-82D3-22AD07A35DD7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonarWave.InfrastructureTests", "tests\SonarWave.InfrastructureTests\SonarWave.InfrastructureTests.csproj", "{6FA64C50-A661-4983-B091-776FD14D0392}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SonarWave.InfrastructureTests", "tests\SonarWave.InfrastructureTests\SonarWave.InfrastructureTests.csproj", "{6FA64C50-A661-4983-B091-776FD14D0392}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +33,6 @@ Global
 		{A12E6293-C554-4A38-A0BA-856CE6C57EBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A12E6293-C554-4A38-A0BA-856CE6C57EBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A12E6293-C554-4A38-A0BA-856CE6C57EBB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64F7FCB8-8E70-44AC-A55E-2D1129661249}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64F7FCB8-8E70-44AC-A55E-2D1129661249}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64F7FCB8-8E70-44AC-A55E-2D1129661249}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64F7FCB8-8E70-44AC-A55E-2D1129661249}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5CFDCECD-AB6D-4548-A73F-D9A79DD0CEF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5CFDCECD-AB6D-4548-A73F-D9A79DD0CEF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CFDCECD-AB6D-4548-A73F-D9A79DD0CEF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -62,7 +56,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{40D44D17-9161-4992-86C7-CAC0D5520A42} = {52493777-9090-44FC-97EE-45167FA220BD}
 		{A12E6293-C554-4A38-A0BA-856CE6C57EBB} = {718F7206-CA90-41BD-A70C-97222856AFA6}
-		{64F7FCB8-8E70-44AC-A55E-2D1129661249} = {52493777-9090-44FC-97EE-45167FA220BD}
 		{5CFDCECD-AB6D-4548-A73F-D9A79DD0CEF7} = {52493777-9090-44FC-97EE-45167FA220BD}
 		{E5FF81C4-E8B3-415A-958D-7E5D8121EC44} = {52493777-9090-44FC-97EE-45167FA220BD}
 		{B8777807-2016-4C9F-82D3-22AD07A35DD7} = {718F7206-CA90-41BD-A70C-97222856AFA6}
