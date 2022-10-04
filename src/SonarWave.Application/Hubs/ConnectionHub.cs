@@ -10,7 +10,6 @@ using SonarWave.Core.Models.File;
 using SonarWave.Core.Models.User;
 using SonarWave.Core.Objects;
 using System.Net;
-using File = SonarWave.Core.Entities.File;
 
 namespace SonarWave.Application.Hubs
 {
@@ -177,6 +176,22 @@ namespace SonarWave.Application.Hubs
 
         #endregion FileTransferRespondAsync
 
+        #region RemoveFileAsync
+
+        public async Task<Response<bool>> RemoveFileAsync(string id)
+        {
+            var result = await _fileService.RemoveFileAsync(Context.ConnectionId, id);
+
+            if (result.Succeeded)
+            {
+                return Response<bool>.NoContent(result.Value);
+            }
+
+            return Response<bool>.BadRequest(result.Fault.ErrorMessage);
+        }
+
+        #endregion RemoveFileAsync
+
         #region TransferFileAsync
 
         public async Task TransferFileAsync(string fileId, IAsyncEnumerable<byte[]> chunks)
@@ -191,7 +206,7 @@ namespace SonarWave.Application.Hubs
 
             await foreach (var chunk in chunks)
             {
-                await Clients.Client(file.RecipientId).SendAsync("ReceiveFile", new FileChunk()
+                await Clients.Client(file.RecipientId).SendAsync("OnReceiveFile", new FileChunk()
                 {
                     FileId = file.Id,
                     Chunk = chunk
