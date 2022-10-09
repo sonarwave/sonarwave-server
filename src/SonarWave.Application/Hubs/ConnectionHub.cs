@@ -194,7 +194,7 @@ namespace SonarWave.Application.Hubs
 
         #region TransferFileAsync
 
-        public async Task TransferFileAsync(string fileId, IAsyncEnumerable<byte[]> chunks)
+        public async Task TransferFileAsync(string fileId, IAsyncEnumerable<int[]> chunks)
         {
             var file = await _fileService.GetFileAsync(Context.ConnectionId, fileId);
 

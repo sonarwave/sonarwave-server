@@ -13,6 +13,6 @@
         /// <summary>
         /// Represents a chunk of the file.
         /// </summary>
-        public byte[] Chunk { get; set; } = Array.Empty<byte>();
+        public int[] Chunk { get; set; } = Array.Empty<int>();
     }
 }
