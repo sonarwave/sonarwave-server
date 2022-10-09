@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SonarWave.CoreTests", "test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SonarWave.InfrastructureTests", "tests\SonarWave.InfrastructureTests\SonarWave.InfrastructureTests.csproj", "{6FA64C50-A661-4983-B091-776FD14D0392}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonarWave.Client", "src\SonarWave.Client\SonarWave.Client.csproj", "{540BFC4F-ADA8-429D-8EC3-91617A8AAFAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{6FA64C50-A661-4983-B091-776FD14D0392}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FA64C50-A661-4983-B091-776FD14D0392}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FA64C50-A661-4983-B091-776FD14D0392}.Release|Any CPU.Build.0 = Release|Any CPU
+		{540BFC4F-ADA8-429D-8EC3-91617A8AAFAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{540BFC4F-ADA8-429D-8EC3-91617A8AAFAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{540BFC4F-ADA8-429D-8EC3-91617A8AAFAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{540BFC4F-ADA8-429D-8EC3-91617A8AAFAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{E5FF81C4-E8B3-415A-958D-7E5D8121EC44} = {52493777-9090-44FC-97EE-45167FA220BD}
 		{B8777807-2016-4C9F-82D3-22AD07A35DD7} = {718F7206-CA90-41BD-A70C-97222856AFA6}
 		{6FA64C50-A661-4983-B091-776FD14D0392} = {718F7206-CA90-41BD-A70C-97222856AFA6}
+		{540BFC4F-ADA8-429D-8EC3-91617A8AAFAF} = {52493777-9090-44FC-97EE-45167FA220BD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A50C588E-27A2-4AF0-8D54-A5C288333D3D}

@@ -13,17 +13,25 @@ namespace SonarWave.Application.DependencyInjection
         {
             services.AddAutoMapper(typeof(MapperInitializer));
 
-            services.AddSignalR(options =>
+            services.AddSignalR(opt =>
             {
-                options.EnableDetailedErrors = true;
-                options.ClientTimeoutInterval = TimeSpan.FromMinutes(10);
-                options.MaximumReceiveMessageSize = 1000000000;
+                opt.EnableDetailedErrors = true;
+                opt.ClientTimeoutInterval = TimeSpan.FromMinutes(10);
+                opt.MaximumReceiveMessageSize = 1000000000;
             })
                 .AddJsonProtocol(options =>
                 {
                     options.PayloadSerializerOptions.Converters
                        .Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
                 });
+            //.AddMessagePackProtocol(opt =>
+            //{
+            //    opt.SerializerOptions = MessagePackSerializerOptions
+            //        .Standard
+            //        .WithResolver(StandardResolver.Instance)
+            //        .WithResolver(DynamicEnumAsStringResolver.Instance)
+            //        .WithSecurity(MessagePackSecurity.UntrustedData);
+            //});
         }
     }
 }

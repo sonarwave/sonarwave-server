@@ -22,7 +22,7 @@ namespace SonarWave.Infrastructure.Services
 
         public async Task<File?> GetFileAsync(string connectionId, string fileId)
         {
-            if (string.IsNullOrEmpty(connectionId) || Guid.TryParse(fileId, out _))
+            if (string.IsNullOrEmpty(connectionId) || !Guid.TryParse(fileId, out _))
                 return null;
 
             return await _context.Files.FirstOrDefaultAsync(opt => opt.Id == fileId && (opt.SenderId == connectionId || opt.RecipientId == connectionId));
